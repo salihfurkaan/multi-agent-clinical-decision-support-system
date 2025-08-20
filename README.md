@@ -32,8 +32,8 @@ A **modular multi-agent system** that leverages **specialized Large Language Mod
 
 ### 1️⃣ Clone the Repository
 ```bash
-git clone https://github.com/salihfurkaan/multiagent_clinicaldecisionsupport.git
-cd multiagent_clinicaldecisionsupport
+git clone https://github.com/salihfurkaan/multi-agent-clinical-decision-support-system.git
+cd multi-agent-clinical-decision-support-system
 ```
 
 ### 2️⃣ Install Dependencies

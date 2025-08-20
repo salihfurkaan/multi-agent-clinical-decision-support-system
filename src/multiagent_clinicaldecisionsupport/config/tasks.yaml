@@ -1,0 +1,114 @@
+diagnosis_task:
+  description: >
+    Generate a differential diagnosis list based on the patient's symptoms, history, and risk factors.
+    Consider the following input keys:
+    - {clinical_presentation.complaint}, {clinical_presentation.description}, {clinical_presentation.duration}, {clinical_presentation.additional_notes}
+    - {medical_history}
+    - {social_history}
+    - {family_history}
+    
+    Prioritize life-threatening conditions, then include common and relevant alternatives.
+    Use Bayesian reasoning if possible (e.g., likelihood based on risk factors).
+  expected_output: >
+    A markdown report with:
+    - List of possible diagnoses with ranked likelihood
+    - For each: brief explanation (why it's possible), risk factors, and reasoning
+    - A short summary of what should be investigated further to refine the diagnosis
+  agent: diagnostician
+
+
+imaging_lab_task:
+  description: >
+    Recommend relevant diagnostic tests (imaging, lab work) to support or refute the differential diagnoses.
+    Then, interpret the hypothetical or available test results and note how they impact diagnosis confidence.
+    Use previous output from the diagnosis agent as input context.
+  expected_output: >
+    A markdown document with:
+    - Recommended tests (name, type, purpose)
+    - Simulated or interpreted test results
+    - Diagnostic impact summary: “These results increase/decrease confidence in X because...”
+  agent: imaging_and_laboratory_specialist
+
+
+treatment_task:
+  description: >
+    Suggest a treatment plan based on the most likely diagnosis and current clinical status.
+    Consider patient-specific factors from the intake: {medical_history}, {social_history}, {family_history}, {medications_and_allergies.current_medications}, {medications_and_allergies.allergies.allergies}.
+  expected_output: >
+    A JSON object with:
+    - diagnosis_confirmed
+    - treatment_plan: list of actions (medications, lifestyle advice, procedures)
+    - rationale: 1–2 sentence justification for each component
+    - urgency_level: "emergency", "urgent", "routine"
+  agent: clinical_treatment_specialist
+
+
+pharmacology_task:
+  description: >
+    Check the proposed medications for any potential issues, including:
+    - Allergies
+    - Drug-drug interactions with current medications
+    - Dosing safety based on age and comorbidities
+    
+    Use these information: {medications_and_allergies.current_medications}, {medications_and_allergies.allergies.allergies} , {medical_history}, and the treatment agent's output.
+  expected_output: >
+    A structured report with:
+    - medication_checks: list of flagged drugs with reasons (if any)
+    - safe_medications: recommended safe alternatives
+    - interaction_summary: overview of drug-drug interactions
+    - allergy_alerts: yes/no + details
+  agent: pharmacology_specialist
+
+supervisor_task:
+  description: >
+    Review outputs from all previous agents and check for consistency, safety, and logical soundness.
+    Resolve contradictions between diagnosis, test results, and treatment plans.
+    Ensure that pharmacological suggestions are safe and that the overall plan is coherent.
+    Do NOT include reasoning/thinking steps, planning, next steps or instructions for patient communication agent.
+    When you are done with supervising, return the final plan to the patient communication agent.
+  expected_output: >
+    A corrected and finalized diagnosis and treatment plan that:
+    - Resolves any contradictions or inconsistencies in the diagnosis
+    - Ensures all test results are properly considered
+    - Validates the safety and appropriateness of all treatments
+    - Provides a coherent, clinically sound final plan
+  agent: supervisor
+
+patient_communication_task:
+  description: >
+    Create a warm, empathetic, and clear communication for the patient that includes:
+    1. A personalized greeting using the patient's name
+    2. A summary of the key findings in simple language
+    3. A clear explanation of the recommended tests and why they're important
+    4. Any immediate concerns that need attention
+    5. A reassuring closing with next steps
+    
+    Use {patient_information.name}, {patient_information.age}, and {clinical_presentation.complaint} to personalize the message.
+    Write in the second person and use simple, everyday language.
+    Be reassuring and supportive while being honest about any concerns.
+    
+  expected_output: |
+    # Personalized Health Summary for {patient_information.name}
+    
+    ## What We've Found
+    [Clear, empathetic summary of key findings in 2-3 sentences]
+    
+    ## Recommended Tests & Why They're Important
+    - [Test 1]: [Simple explanation of what it checks and why it's needed]
+    - [Test 2]: [Simple explanation of what it checks and why it's needed]
+    
+    ## Your Next Steps
+    - [Clear, actionable step 1]
+    - [Clear, actionable step 2]
+    
+    ## What We're Watching For
+    [Any important monitoring or follow-up needed]
+    
+    ## Questions to Ask Your Doctor
+    - [Relevant question 1]
+    - [Relevant question 2]
+    
+    Remember, we're here to support you every step of the way.
+  agent: patient_communication_specialist
+  output_file: "output.md"
+

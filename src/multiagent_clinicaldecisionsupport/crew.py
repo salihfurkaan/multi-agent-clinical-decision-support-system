@@ -28,21 +28,28 @@ class MultiagentClinicaldecisionsupport():
     agents: List[BaseAgent]
     tasks: List[Task]
 
-    mcp_server_params = [StdioServerParameters(
-        command="python",
-        args=[r"C:\Users\Salih Furkan\OneDrive\Masaüstü\Internship\mcps\clinicaltrialsgov_mcp.py"],
-        env={"UV_PYTHON": "3.12", **os.environ},
-    ),
-    StdioServerParameters(
-        command="python",
-        args=[r"C:\Users\Salih Furkan\OneDrive\Masaüstü\Internship\mcps\opentargets_mcp.py"],
-        env={"UV_PYTHON": "3.12", **os.environ},
-    ),
-    StdioServerParameters(
-        command="python",
-        args=[r"C:\Users\Salih Furkan\OneDrive\Masaüstü\Internship\mcps\pubmed_mcp.py"],
-        env={"UV_PYTHON": "3.12", **os.environ},
-    )]
+    mcp_server_params = [
+        StdioServerParameters(
+            command="python",
+            args=["-m", "mcps.clinicaltrialsgov_mcp"],
+            env={"UV_PYTHON": "3.12", **os.environ},
+        ),
+        StdioServerParameters(
+            command="python",
+            args=["-m", "mcps.pubmed_mcp"],
+            env={"UV_PYTHON": "3.12", **os.environ},
+        ),
+        StdioServerParameters(
+            command="python",
+            args=["-m", "mcps.opentargets_mcp"],
+            env={"UV_PYTHON": "3.12", **os.environ},
+        ),
+        StdioServerParameters(
+            command="python",
+            args=["-m", "mcps.pubmed_mcp"],
+            env={"UV_PYTHON": "3.12", **os.environ},
+        )
+    ]
 
     @agent
     def diagnostician(self) -> Agent:
@@ -96,7 +103,7 @@ class MultiagentClinicaldecisionsupport():
             config=self.agents_config['pharmacology_specialist'], 
             verbose=False,
             reasoning=True,
-            tools= self.get_mcp_tools(), #will stay
+            tools= self.get_mcp_tools(), 
             respect_context_window=True,
             llm=model_meditron,
             cache=True,

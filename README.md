@@ -32,7 +32,7 @@ A **modular multi-agent system** that leverages **specialized Large Language Mod
 
 ### 1️⃣ Clone the Repository
 ```bash
-git clone https://github.com/<salihfurkaan>/multiagent_clinicaldecisionsupport.git
+git clone https://github.com/salihfurkaan/multiagent_clinicaldecisionsupport.git
 cd multiagent_clinicaldecisionsupport
 ```
 
@@ -50,8 +50,7 @@ pip install -e .
 ### 3️⃣ Configure API Keys
 Create a `.env` file in the project root with your API keys:
 ```bash
-HUGGINGFACE_API_KEY=your_hf_key
-MCP_API_KEY=your_mcp_key
+HF_TOKEN=your_hf_key
 ```
 
 ### 4️⃣ Run the System

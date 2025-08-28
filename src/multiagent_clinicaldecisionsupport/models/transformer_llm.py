@@ -17,7 +17,7 @@ class TransformersLLM(BaseLLM):
             device_map="auto"
         )
         
-    def call(self, messages, tools=None, callbacks=None, available_functions=None):
+    def call(self, messages, tools=None, callbacks=None, available_functions=None, **kwargs):
         if isinstance(messages, str):
             text = messages
         else:

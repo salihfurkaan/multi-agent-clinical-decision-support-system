@@ -14,14 +14,15 @@ A **modular multi-agent system** that leverages **specialized Large Language Mod
 
 ## 🧑‍⚕️ Agents
 
-| Agent | Role / Function | Chosen Model | Tools |
-|-------|-----------------|--------------|-------|
-| 🧠 **Diagnosis Agent** | Generates differential diagnoses from patient data | **Palmyra-Med-70B-32K** | — |
-| 🔬 **Imaging & Lab Agent** | Suggests tests, interprets lab/imaging results | **Meditron-7B** | — |
-| 💊 **Treatment Agent** | Recommends treatment plans and interventions | **Palmyra-Med-70B-32K** | PubMedTool |
-| 🧪 **Pharmacology Agent** | Drug interactions, allergies, dosage safety | **Meditron-7B** | OpenTargets, PubMed, ClinicalTrials MCP |
-| 🧑‍⚖️ **Supervisor Agent** | Oversees, resolves contradictions, ensures safety | **Palmyra-Med-70B-32K** | PubMedTool |
-| 🗣️ **Patient Communication Agent** | Converts outputs into empathetic, patient-friendly speech | **Meta-LLaMA-3-8B-Instruct** | — |
+| Agent | Role / Function | Accurate Mode (best quality) |Fast Mode (lighter inference)|
+| --- | --- | --- | --- |
+| 🧠 **Diagnosis Agent** | Generates differential diagnoses from patient data | **Palmyra-Med-70B-32K** | DeepSeek R1 Medical CoT |
+| 🔬 **Imaging & Lab Agent** | Suggests tests, interprets lab/imaging results | **Meditron-7B** | HuatuoGPT-o1-8B |
+| 💊 **Treatment Agent** | Recommends treatment plans, literature-backed | **Palmyra-Med-70B-32K + PubMedTool** | **DeepSeek-R1-Medical-CoT** *(Q5_K_M quantizations)* |
+| 🧪 **Pharmacology Agent** | Drug interactions, allergies, dosage safety | **Meditron-7B + OpenTargets + PubMed + ClinicalTrials MCP** | **HuatuoGPT-o1-8B + Tools** *(lighter, but reasoning + tools = solid)* |
+| 🗣️ **Patient Communication Agent** | Converts outputs into empathetic, patient-friendly speech | **Meta-LLaMA-3-8B-Instruct** | **medinote-7b** |
+| 🧑‍⚖️ **Supervisor Agent** | Oversees, resolves contradictions, ensures safety | **Palmyra-Med-70B-32K + PubMedTool** | **HuatuoGPT-o1-8B** |
+|  |  |  |  |
 
 ## ⚙️ Setup
 

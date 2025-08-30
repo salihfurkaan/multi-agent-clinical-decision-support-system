@@ -11,7 +11,8 @@ dependencies = [
     "torch>=2.8.0",
     "transformers>=4.46.3",
     "xmltodict>=0.14.2",
-    "accelerate>=0.26.0"
+    "accelerate>=0.26.0",
+    "llama-cpp-python",
 ]
 
 [project.scripts]

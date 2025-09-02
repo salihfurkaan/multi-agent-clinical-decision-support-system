@@ -10,18 +10,13 @@ class QuantizedLLM(BaseLLM):
         self,
         repo_id: str,
         filename: str,
-        n_ctx: int = 2048,
-        n_gpu_layers: int = 0,
-        verbose: bool = False
+
     ):
         super().__init__(model=f"{repo_id}/{filename}")
         
         self.llm = Llama.from_pretrained(
             repo_id=repo_id,
-            filename=filename,
-            n_ctx=n_ctx,
-            n_gpu_layers=n_gpu_layers,
-            verbose=verbose
+            filename=filename
         )
         
     def call(

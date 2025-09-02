@@ -35,9 +35,7 @@ class QuantizedLLM(BaseLLM):
                 prompt += content + "\n"
         
         response = self.llm(
-            prompt,
-            max_tokens=512,
-            echo=False
+            prompt
         )
         
         return response["choices"][0]["text"].strip()

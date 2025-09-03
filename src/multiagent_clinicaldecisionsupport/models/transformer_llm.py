@@ -2,6 +2,7 @@ from crewai import BaseLLM
 from transformers import AutoTokenizer, AutoModelForCausalLM
 import torch
 from dotenv import load_dotenv
+import os
 
 load_dotenv()
 
@@ -27,10 +28,14 @@ class TransformersLLM(BaseLLM):
         with torch.no_grad():
             outputs = self.model.generate(
                 **inputs,
-                max_new_tokens=512,
                 temperature=self.temperature,
-                do_sample=True
+                do_sample=True,
+                max_new_tokens=4096,
+                pad_token_id=self.tokenizer.eos_token_id
             )
-        
         response = self.tokenizer.decode(outputs[0], skip_special_tokens=True)
         return response[len(text):].strip()
+
+    def supports_function_calling(self) -> bool:
+        # Since you're using MCP tools, return True
+        return True
